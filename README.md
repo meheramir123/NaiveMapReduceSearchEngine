@@ -11,7 +11,7 @@
 **Usage:**
 1. **Data Loading:** Users can load CSV data using the provided functions.
 2. **Data Cleaning:** Easily drop rows with missing values to ensure data quality.
-3. **Text Preprocessing:** Apply tokenization, stopword removal, stemming, and lemmatization to textual data for further analysis.
+3. **Text Preprocessing:** Apply tokenization, stopword removal to textual data for further analysis.
 4. **Save Preprocessed Data:** Save the cleaned and preprocessed data to a new CSV file for future use.
 
 **Dependencies:**
