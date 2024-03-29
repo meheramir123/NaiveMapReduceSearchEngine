@@ -33,7 +33,7 @@ data = drop_missing_values(data)
 # Save preprocessed data to a new CSV file
 save_preprocessed_data(data, 'preprocessed_data.csv')
 ```
-3)MapReduce implementation for query processing
+# 3)MapReduce implementation for query processing
 
 1. **Vectorizing Queries:**
    - **Mapper:** Tokenize each query text into words and emit (query_id, word) pairs with a count of 1 for each word.
