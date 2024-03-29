@@ -32,6 +32,8 @@ data = drop_missing_values(data)
 
 # Save preprocessed data to a new CSV file
 save_preprocessed_data(data, 'preprocessed_data.csv')
+.
+```
 # 2) MapReduce implementation for indexing
 
 ### 1. Word Enumeration and Unique Word ID Assignment:
@@ -55,8 +57,8 @@ save_preprocessed_data(data, 'preprocessed_data.csv')
 - **Mapper:** Parse TF/IDF output from the previous step and emit (word, (doc_id, tfidf)) pairs.
 - **Reducer:** Aggregate TFIDF values for each word and organize them into an index structure. Yield the index as a single entry.
 
-These MapReduce jobs efficiently process data in a distributed manner, handling scalability issues commonly encountered with large document corpora. The index generated can be used for various information retrieval tasks, such as search queries, document ranking, and content recommendation systems.
-```
+These MapReduce jobs efficiently process data in a distributed manner, handling scalability issues commonly encountered with large document corpora. The index generated can be used for various information retrieval tasks, such as search queries, document ranking, and content recommendation systems
+
 # 3) MapReduce implementation for query processing
 
 1. **Vectorizing Queries:**
