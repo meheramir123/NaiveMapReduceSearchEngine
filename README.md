@@ -78,5 +78,6 @@ These MapReduce jobs efficiently process data in a distributed manner, handling 
    - **Reducer:** Aggregate and return relevant content for each query.
 
 Each step involves a Mapper function to process input data and emit intermediate key-value pairs, and a Reducer function to aggregate and process intermediate results to produce the final output. These MapReduce jobs can be run on distributed computing framework like Hadoop allowing for efficient processing of large-scale data sets across multiple nodes.
+
 **Acknowledgments:**
 The DataProcessingRepo utilizes various open-source libraries and tools, including pandas, NLTK, and concurrent.futures, for efficient data processing and text preprocessing. Special thanks to the contributors of these projects for their valuable work.
