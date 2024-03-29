@@ -32,8 +32,32 @@ data = drop_missing_values(data)
 
 # Save preprocessed data to a new CSV file
 save_preprocessed_data(data, 'preprocessed_data.csv')
+# 2) MapReduce implementation for indexing
+
+### 1. Word Enumeration and Unique Word ID Assignment:
+
+**Objective:** Generate a set of unique words and assign IDs.
+
+- **Mapper:** Tokenize each document's text into words and emit (word, 1) pairs.
+- **Reducer:** Aggregate word counts for each word and emit (word, total_count) pairs.
+
+### 2. Calculating TF/IDF Weights for Each Term:
+
+**Objective:** Calculate TF/IDF weights for each term in the document corpus.
+
+- **Mapper:** Tokenize each document's text into words and calculate TF (Term Frequency). Emit (word, (doc_id, tf)) pairs.
+- **Reducer:** Aggregate TF values for each word across documents and calculate IDF (Inverse Document Frequency). Compute TF/IDF weights for each term in each document.
+
+### 3. Generating Index for Entire Document Corpus:
+
+**Objective:** Generate an index for the entire document corpus.
+
+- **Mapper:** Parse TF/IDF output from the previous step and emit (word, (doc_id, tfidf)) pairs.
+- **Reducer:** Aggregate TFIDF values for each word and organize them into an index structure. Yield the index as a single entry.
+
+These MapReduce jobs efficiently process data in a distributed manner, handling scalability issues commonly encountered with large document corpora. The index generated can be used for various information retrieval tasks, such as search queries, document ranking, and content recommendation systems.
 ```
-# 3)MapReduce implementation for query processing
+# 3) MapReduce implementation for query processing
 
 1. **Vectorizing Queries:**
    - **Mapper:** Tokenize each query text into words and emit (query_id, word) pairs with a count of 1 for each word.
