@@ -1,83 +1,35 @@
-# NaiveMapReduceSearchEngine
- This repository hosts a simple implementation of a search engine utilizing the MapReduce paradigm. By leveraging MapReduce, the system can handle large datasets distributed across multiple nodes, providing scalability and fault tolerance. 
-# 1) Data Processing
-# Features:
-1. **Data Loading:** The repository includes functions to load CSV data into Pandas DataFrames, ensuring smooth data ingestion.
-2. **Data Cleaning:** It offers functionality to drop rows with missing values, ensuring data integrity and quality.
-3. **Text Preprocessing:** The repository provides utilities for preprocessing textual data, including tokenization, removal of stopwords, stemming, and lemmatization.
-4. **Parallel Processing:** To improve efficiency, the repository supports parallel processing of text data using concurrent.futures.
-5. **Saving Preprocessed Data:** After cleaning and preprocessing, the repository allows users to save the cleaned and preprocessed data to a new CSV file.
+This repository hosts a search engine implementation that utilizes the MapReduce paradigm for efficient processing of large datasets. The system comprises several components, including:
 
-**Usage:**
-1. **Data Loading:** Users can load CSV data using the provided functions.
-2. **Data Cleaning:** Easily drop rows with missing values to ensure data quality.
-3. **Text Preprocessing:** Apply tokenization, stopword removal to textual data for further analysis.
-4. **Save Preprocessed Data:** Save the cleaned and preprocessed data to a new CSV file for future use.
+1. **Data Processing:**
+   - Features data loading, cleaning, and text preprocessing functionalities using Pandas and NLTK libraries.
+   - Supports parallel processing for improved efficiency.
 
-**Dependencies:**
-- Python 3.x
-- pandas
-- nltk
+2. **MapReduce Implementation for Indexing:**
+   - **Word Enumeration and Unique Word ID Assignment:**
+     - Mapper: Tokenizes each document's text and emits (word, document_id) pairs.
+     - Reducer: Aggregates document IDs for each word.
+   - **Calculating TF/IDF Weights for Each Term:**
+     - Mapper: Tokenizes text and calculates TF, emitting (word, (doc_id, tf)) pairs.
+     - Reducer: Aggregates TF values and computes IDF, resulting in TF/IDF weights for each term.
+   - **Generating Index for Entire Document Corpus:**
+     - Mapper: Parses TF/IDF output and emits (word, (doc_id, tfidf)) pairs.
+     - Reducer: Aggregates TFIDF values, yielding an index structure.
 
-**Example Usage:**
-```python
-# Example usage of DataProcessingRepo
-from data_processing_utils import load_data, drop_missing_values, preprocess_text, parallel_preprocess, save_preprocessed_data
+3. **MapReduce Implementation for Query Processing:**
+   - **Vectorizing Queries:**
+     - Mapper: Tokenizes query text and emits (query_id, word) pairs.
+     - Reducer: Aggregates word frequencies for each query.
+   - **Calculating Relevance Scores:**
+     - Mapper: Computes cosine similarity between query and document vectors.
+     - Reducer: Sums relevance scores for each query-document pair.
+   - **Ranking Relevant Documents:**
+     - Mapper: Emits (query_id, total_score) pairs for ranking.
+     - Reducer: Sorts and ranks documents based on relevance scores.
+   - **Retrieving Relevant Content:**
+     - Mapper: Retrieves content for ranked documents.
+     - Reducer: Aggregates and returns relevant content for each query.
 
-# Load CSV data
-data = load_data('data.csv')
-
-# Drop rows with missing values
-data = drop_missing_values(data)
-
-# Save preprocessed data to a new CSV file
-save_preprocessed_data(data, 'preprocessed_data.csv')
-.
-```
-# 2) MapReduce implementation for indexing
-
-### 1. Word Enumeration and Unique Word ID Assignment:
-
-**Objective:** Generate a set of unique words and assign IDs.
-
-- **Mapper:** Tokenize each document's text into words and emit (word, 1) pairs.
-- **Reducer:** Aggregate word counts for each word and emit (word, total_count) pairs.
-
-### 2. Calculating TF/IDF Weights for Each Term:
-
-**Objective:** Calculate TF/IDF weights for each term in the document corpus.
-
-- **Mapper:** Tokenize each document's text into words and calculate TF (Term Frequency). Emit (word, (doc_id, tf)) pairs.
-- **Reducer:** Aggregate TF values for each word across documents and calculate IDF (Inverse Document Frequency). Compute TF/IDF weights for each term in each document.
-
-### 3. Generating Index for Entire Document Corpus:
-
-**Objective:** Generate an index for the entire document corpus.
-
-- **Mapper:** Parse TF/IDF output from the previous step and emit (word, (doc_id, tfidf)) pairs.
-- **Reducer:** Aggregate TFIDF values for each word and organize them into an index structure. Yield the index as a single entry.
-
-These MapReduce jobs efficiently process data in a distributed manner, handling scalability issues commonly encountered with large document corpora. The index generated can be used for various information retrieval tasks, such as search queries, document ranking, and content recommendation systems
-
-# 3) MapReduce implementation for query processing
-
-1. **Vectorizing Queries:**
-   - **Mapper:** Tokenize each query text into words and emit (query_id, word) pairs with a count of 1 for each word.
-   - **Reducer:** Aggregate word counts for each query to create a dictionary of word frequencies for each query.
-
-2. **Calculating Relevance Scores:**
-   - **Mapper:** Load pre-calculated query vectors and document vectors. Compute the cosine similarity between each query vector and document vector pair.
-   - **Reducer:** Sum up relevance scores for each query-document pair to get the total relevance score.
-
-3. **Ranking Relevant Documents:**
-   - **Mapper:** Emit (query_id, total_score) pairs where total_score is the relevance score for each document under a query.
-   - **Reducer:** Sort document relevance scores in descending order and assign ranks to documents.
-
-4. **Retrieving Relevant Content:**
-   - **Mapper:** Retrieve content for each ranked document ID.
-   - **Reducer:** Aggregate and return relevant content for each query.
-
-Each step involves a Mapper function to process input data and emit intermediate key-value pairs, and a Reducer function to aggregate and process intermediate results to produce the final output. These MapReduce jobs can be run on distributed computing framework like Hadoop allowing for efficient processing of large-scale data sets across multiple nodes.
+These MapReduce jobs efficiently handle large-scale data processing across distributed computing nodes. The system facilitates tasks such as document indexing, query processing, relevance ranking, and content extraction. Each component plays a crucial role in the search engine's functionality, ensuring effective information retrieval from the text corpus.
 
 **Acknowledgments:**
-The DataProcessingRepo utilizes various open-source libraries and tools, including pandas, NLTK, and concurrent.futures, for efficient data processing and text preprocessing. Special thanks to the contributors of these projects for their valuable work.
+This project utilizes open-source libraries and tools such as pandas, NLTK, and concurrent.futures for data processing and text analysis. 
